@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("GreenFlux.SmartCharging.UnitTests")]
 namespace GreenFlux.SmartCharging.Api.AutoMapper
 {
     public class ConnectorDTO
@@ -7,6 +9,6 @@ namespace GreenFlux.SmartCharging.Api.AutoMapper
         public int Identifier { get; set; }
         public Guid ChargeStationIdentifier { get; set; }
         public float MaxCurrentInAmps { get; set; }
-        public bool FromPost { get; set; }
+        internal bool FromPost { get; set; }
     }
 }
