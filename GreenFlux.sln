@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{691A2790-5EF3-435E-A84F-7B6B26B00E4C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenFlux.SmartCharging.Api", "src\GreenFlux.SmartCharging.Api\GreenFlux.SmartCharging.Api.csproj", "{50C987CA-F2EA-4A49-A831-DC3BEEDD2113}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenFlux.SmartCharging.Domain", "src\GreenFlux.SmartCharging.Domain\GreenFlux.SmartCharging.Domain.csproj", "{63BFD7CE-90B2-4ADD-A10B-2B4405D4274E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenFlux.SmartCharging.Persistence", "src\GreenFlux.SmartCharging.Persistence\GreenFlux.SmartCharging.Persistence.csproj", "{4A704180-A5EF-4E20-8619-9AEF1AE6974B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50C987CA-F2EA-4A49-A831-DC3BEEDD2113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50C987CA-F2EA-4A49-A831-DC3BEEDD2113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50C987CA-F2EA-4A49-A831-DC3BEEDD2113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50C987CA-F2EA-4A49-A831-DC3BEEDD2113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63BFD7CE-90B2-4ADD-A10B-2B4405D4274E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63BFD7CE-90B2-4ADD-A10B-2B4405D4274E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63BFD7CE-90B2-4ADD-A10B-2B4405D4274E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63BFD7CE-90B2-4ADD-A10B-2B4405D4274E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A704180-A5EF-4E20-8619-9AEF1AE6974B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A704180-A5EF-4E20-8619-9AEF1AE6974B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A704180-A5EF-4E20-8619-9AEF1AE6974B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A704180-A5EF-4E20-8619-9AEF1AE6974B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0FC9B10B-15B0-46A4-AC27-8DC23FEFE5ED}
+	EndGlobalSection
+EndGlobal
