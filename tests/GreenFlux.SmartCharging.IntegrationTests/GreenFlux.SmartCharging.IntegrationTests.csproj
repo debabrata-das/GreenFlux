@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GreenFlux.SmartCharging.Persistence\GreenFlux.SmartCharging.Persistence.csproj" />
+    <ProjectReference Include="..\..\src\GreenFlux.SmartCharging.Api\GreenFlux.SmartCharging.Api.csproj" />
+    <ProjectReference Include="..\..\src\GreenFlux.SmartCharging.Domain\GreenFlux.SmartCharging.Domain.csproj" />
+    <ProjectReference Include="..\..\src\GreenFlux.SmartCharging.Persistence\GreenFlux.SmartCharging.Persistence.csproj" />
   </ItemGroup>
 </Project>
