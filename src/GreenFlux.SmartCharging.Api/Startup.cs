@@ -8,6 +8,10 @@ using System;
 using System.Data;
 using System.Net;
 using System.Reflection;
+using Autofac;
+using Autofac.Core;
+using Autofac.Extensions.DependencyInjection;
+using GreenFlux.SmartCharging.Api.Modules;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -53,6 +57,15 @@ namespace GreenFlux.SmartCharging.Api
             services.AddControllers();
             services.PersistenceConfiguration();
             services.AddAutoMapper(typeof(Startup));
+
+            var builder = new ContainerBuilder();
+            builder.Populate(services);
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            //configure auto fac here
+            builder.RegisterModule(new MediatorModule());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

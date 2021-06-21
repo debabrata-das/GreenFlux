@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,6 @@ namespace GreenFlux.SmartCharging.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).UseServiceProviderFactory(new AutofacServiceProviderFactory());
     }
 }
