@@ -36,8 +36,8 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{identifier:guid}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupDTO))]
-        public async Task<IActionResult> GetGroupByIdentifier(Guid identifier)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<GroupDTO>> GetGroupByIdentifier(Guid identifier)
         {
             try
             {
@@ -65,8 +65,8 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{identifier:guid}/TotalMaxCurrentInAmps")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(float))]
-        public async Task<IActionResult> GetTotalCurrentInAmps(Guid identifier)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<float>> GetTotalCurrentInAmps(Guid identifier)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GroupDTO>> CreateGroup(SaveGroup command)
         {
             command.FromPost = true;
@@ -111,7 +111,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPatch("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GroupDTO>> UpdateGroup(SaveGroup command)
         {
             var commandOutput = await _mediator.Send(command);

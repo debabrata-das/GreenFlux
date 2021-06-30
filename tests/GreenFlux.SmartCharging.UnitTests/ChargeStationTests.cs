@@ -41,7 +41,7 @@ namespace GreenFlux.SmartCharging.UnitTests
 
             var actionResult = await chargeStationController.GetChargeStationByIdentifier(guidChargeStation);
 
-            var chargeStationDto = ((ChargeStationDTO)((OkObjectResult) actionResult).Value);
+            var chargeStationDto = ((ChargeStationDTO)((OkObjectResult) actionResult.Result).Value);
             Assert.That(chargeStationDto.Identifier, Is.EqualTo(guidChargeStation));
             Assert.That(chargeStationDto.GroupIdentifier, Is.EqualTo(guidGroup));
             Assert.That(chargeStationDto.Name, Is.EqualTo("Test ChargeStation 1"));
@@ -59,7 +59,7 @@ namespace GreenFlux.SmartCharging.UnitTests
             await chargeStationController.RemoveChargeStation(guidChargeStation);
 
             var actionResult = await chargeStationController.GetChargeStationByIdentifier(guidChargeStation);
-            Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
+            Assert.That(actionResult.Result, Is.InstanceOf(typeof(NotFoundResult)));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace GreenFlux.SmartCharging.UnitTests
 
             var actionResult = await chargeStationController.GetTotalCurrentInAmps(guidChargeStation);
 
-            var ampsValue = (float)((OkObjectResult)actionResult).Value;
+            var ampsValue = (float)((OkObjectResult)actionResult.Result).Value;
             Assert.That(ampsValue, Is.EqualTo(maxCurrentInAmps));
         }
 

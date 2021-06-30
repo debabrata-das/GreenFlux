@@ -79,7 +79,7 @@ namespace GreenFlux.SmartCharging.UnitTests
 
             var actionResult = await connectorController.GetConnector(connectorIdentifier, guidChargeStation);
 
-            var connectorDto = (ConnectorDTO)((OkObjectResult)actionResult).Value;
+            var connectorDto = (ConnectorDTO)((OkObjectResult)actionResult.Result).Value;
             Assert.IsNotNull(connectorDto);
             Assert.That(connectorDto.Identifier, Is.EqualTo(connectorIdentifier));
             Assert.That(connectorDto.ChargeStationIdentifier, Is.EqualTo(guidChargeStation));
@@ -98,7 +98,7 @@ namespace GreenFlux.SmartCharging.UnitTests
             await connectorController.RemoveConnector(connectorIdentifier, guidChargeStation);
 
             var actionResult = await connectorController.GetConnector(connectorIdentifier, guidChargeStation);
-            Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
+            Assert.That(actionResult.Result, Is.InstanceOf(typeof(NotFoundResult)));
         }
 
         private async Task SaveConnector(Guid guidChargeStation, int connectorIdentifier, int maxCurrentInAmps)

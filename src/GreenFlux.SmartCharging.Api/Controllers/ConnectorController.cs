@@ -37,8 +37,8 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{identifier:int}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectorDTO))]
-        public async Task<IActionResult> GetConnector(int identifier, Guid chargeStationIdentifier)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ConnectorDTO>> GetConnector(int identifier, Guid chargeStationIdentifier)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectorDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ConnectorDTO>> CreateConnector(SaveConnector command)
         {
             command.FromPost = true;
@@ -82,7 +82,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPatch("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectorDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ConnectorDTO>> UpdateConnector(SaveConnector command)
         {
             var commandOutput = await _mediator.Send(command);

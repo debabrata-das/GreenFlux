@@ -138,7 +138,7 @@ namespace GreenFlux.SmartCharging.UnitTests
 
             var actionResult = await groupController.GetGroupByIdentifier(identifier);
 
-            var groupDto = (GroupDTO)((OkObjectResult)actionResult).Value;
+            var groupDto = (GroupDTO)((OkObjectResult)actionResult.Result).Value;
             Assert.That(groupDto.Identifier, Is.EqualTo(identifier));
             Assert.That(groupDto.Name, Is.EqualTo(testGroupName));
         }
@@ -155,7 +155,7 @@ namespace GreenFlux.SmartCharging.UnitTests
             await groupController.RemoveGroup(guid);
 
             var actionResult = await groupController.GetGroupByIdentifier(guid);
-            Assert.That(actionResult, Is.InstanceOf(typeof(NotFoundResult)));
+            Assert.That(actionResult.Result, Is.InstanceOf(typeof(NotFoundResult)));
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace GreenFlux.SmartCharging.UnitTests
 
             var actionResult = await groupController.GetTotalCurrentInAmps(guidGroup);
 
-            var ampsValue = (float)((OkObjectResult)actionResult).Value;
+            var ampsValue = (float)((OkObjectResult)actionResult.Result).Value;
             Assert.That(ampsValue, Is.EqualTo(maxCurrentInAmps));
         }
 

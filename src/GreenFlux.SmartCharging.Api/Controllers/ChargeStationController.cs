@@ -37,7 +37,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(float))]
-        public async Task<IActionResult> GetTotalCurrentInAmps(Guid identifier)
+        public async Task<ActionResult<float>> GetTotalCurrentInAmps(Guid identifier)
         {
             try
             {
@@ -67,8 +67,8 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{identifier:guid}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationDTO))]
-        public async Task<IActionResult> GetChargeStationByIdentifier(Guid identifier)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ChargeStationDTO>> GetChargeStationByIdentifier(Guid identifier)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ChargeStationDTO>> CreateChargeStation(SaveChargeStation command)
         {
             command.FromPost = true;
@@ -112,7 +112,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPatch("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ChargeStationDTO>> UpdateChargeStation(SaveChargeStation command)
         {
             var commandOutput = await _mediator.Send(command);
