@@ -5,12 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Data;
-using System.Net;
 using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using GreenFlux.SmartCharging.Api.Modules;
 using MediatR;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Prometheus;
 
 namespace GreenFlux.SmartCharging.Api
@@ -53,9 +52,18 @@ namespace GreenFlux.SmartCharging.Api
             services.AddControllers();
             services.PersistenceConfiguration();
             services.AddAutoMapper(typeof(Startup));
+
+            var builder = new ContainerBuilder();
+            builder.Populate(services);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            //configure auto fac here
+            builder.RegisterModule(new MediatorModule());
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GreenFlux.SmartCharging.Api v1"));
@@ -87,7 +95,10 @@ namespace GreenFlux.SmartCharging.Api
             app.UseCors();
 
             app.UseAuthorization();
-            
+
+            // app.ConfigureExceptionHandler(logger);
+            app.ConfigureCustomExceptionMiddleware();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

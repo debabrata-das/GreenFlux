@@ -1,9 +1,10 @@
 ﻿using System;
+using GreenFlux.SmartCharging.Domain.Exceptions;
 
 namespace GreenFlux.SmartCharging.Api.Exceptions
 {
     [Serializable]
-    public class ConnectorCapacityExceededForGroupException : Exception
+    public class ConnectorCapacityExceededForGroupException : GreenFluxBaseException
     {
         public ConnectorCapacityExceededForGroupException(float capacity, float total, float maxCurrentInAmps)
             : base($"Cannot add this Connector since adding 'MaxCurrentInAmps' value of {maxCurrentInAmps} to the " +

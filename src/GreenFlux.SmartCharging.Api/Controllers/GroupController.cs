@@ -36,8 +36,8 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{identifier:guid}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupDTO))]
-        public async Task<IActionResult> GetGroupByIdentifier(Guid identifier)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<GroupDTO>> GetGroupByIdentifier(Guid identifier)
         {
             try
             {
@@ -65,8 +65,8 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{identifier:guid}/TotalMaxCurrentInAmps")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(float))]
-        public async Task<IActionResult> GetTotalCurrentInAmps(Guid identifier)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<float>> GetTotalCurrentInAmps(Guid identifier)
         {
             try
             {
@@ -95,13 +95,20 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GroupDTO>> CreateGroup(SaveGroup command)
         {
-            command.FromPost = true;
-            var commandOutput = await _mediator.Send(command);
-            _logger.Info($"Group '{commandOutput.GroupDto.Name}' with Identifier '{commandOutput.GroupDto.Identifier}' has been created");
-            return Ok(commandOutput.GroupDto);
+            try
+            {
+                command.FromPost = true;
+                var commandOutput = await _mediator.Send(command);
+                _logger.Info($"Group '{commandOutput.GroupDto.Name}' with Identifier '{commandOutput.GroupDto.Identifier}' has been created");
+                return Ok(commandOutput.GroupDto);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
 
         /// <summary>
@@ -111,23 +118,37 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPatch("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GroupDTO>> UpdateGroup(SaveGroup command)
         {
-            var commandOutput = await _mediator.Send(command);
-            _logger.Info($"Group '{commandOutput.GroupDto.Name}' with Identifier '{commandOutput.GroupDto.Identifier}' has been updated");
-            return Ok(commandOutput.GroupDto);
+            try
+            {
+                var commandOutput = await _mediator.Send(command);
+                _logger.Info($"Group '{commandOutput.GroupDto.Name}' with Identifier '{commandOutput.GroupDto.Identifier}' has been updated");
+                return Ok(commandOutput.GroupDto);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
 
         /// <summary>
         /// Removing <see cref="Group">Group</see> 
         /// </summary>
         /// <param name="identifier"><see cref="Group.Identifier">Group Identifier</see></param>
-        [HttpDelete("{identifier}")]
+        [HttpDelete("{identifier:guid}")]
         public async Task<ActionResult> RemoveGroup(Guid identifier)
         {
-            await _unitOfWork.RemoveGroup(identifier);
-            return Ok();
+            try
+            {
+                await _unitOfWork.RemoveGroup(identifier);
+                return Ok();
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
     }
 }

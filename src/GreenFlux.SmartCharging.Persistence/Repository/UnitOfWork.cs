@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GreenFlux.SmartCharging.Domain.Models;
+using GreenFlux.SmartCharging.Persistence.Exceptions;
 
 namespace GreenFlux.SmartCharging.Persistence.Repository
 {
@@ -56,6 +57,15 @@ namespace GreenFlux.SmartCharging.Persistence.Repository
                 }
                 await GroupRepository.RemoveGroup(identifier);
                 await SaveAsync();
+            }
+        }
+
+        public async Task CheckGroupCapacity(Group existingGroup, float newCapacity)
+        {
+            var currentAvailableCurrentInAmps = await GroupRepository.GetMaxCurrentInAmps(existingGroup);
+            if (newCapacity < currentAvailableCurrentInAmps)
+            {
+                throw new NewCapacityForGroupCannotBeLowerException(existingGroup, newCapacity, currentAvailableCurrentInAmps);
             }
         }
 

@@ -37,7 +37,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(float))]
-        public async Task<IActionResult> GetTotalCurrentInAmps(Guid identifier)
+        public async Task<ActionResult<float>> GetTotalCurrentInAmps(Guid identifier)
         {
             try
             {
@@ -67,8 +67,8 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{identifier:guid}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationDTO))]
-        public async Task<IActionResult> GetChargeStationByIdentifier(Guid identifier)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ChargeStationDTO>> GetChargeStationByIdentifier(Guid identifier)
         {
             try
             {
@@ -96,13 +96,20 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ChargeStationDTO>> CreateChargeStation(SaveChargeStation command)
         {
-            command.FromPost = true;
-            var commandOutput = await _mediator.Send(command);
-            _logger.Info($"Charge Station '{commandOutput.ChargeStationDto.Identifier}' for group {commandOutput.ChargeStationDto.GroupIdentifier} has been created");
-            return Ok(commandOutput.ChargeStationDto);
+            try
+            {
+                command.FromPost = true;
+                var commandOutput = await _mediator.Send(command);
+                _logger.Info($"Charge Station '{commandOutput.ChargeStationDto.Identifier}' for group {commandOutput.ChargeStationDto.GroupIdentifier} has been created");
+                return Ok(commandOutput.ChargeStationDto);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
 
         /// <summary>
@@ -112,23 +119,38 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpPatch("")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ChargeStationDTO>> UpdateChargeStation(SaveChargeStation command)
         {
-            var commandOutput = await _mediator.Send(command);
-            _logger.Info($"Charge Station '{commandOutput.ChargeStationDto.Identifier}' for group {commandOutput.ChargeStationDto.GroupIdentifier} has been updated");
-            return Ok(commandOutput.ChargeStationDto);
+            try
+            {
+                var commandOutput = await _mediator.Send(command);
+                _logger.Info($"Charge Station '{commandOutput.ChargeStationDto.Identifier}' for group {commandOutput.ChargeStationDto.GroupIdentifier} has been updated");
+                return Ok(commandOutput.ChargeStationDto);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
+
         }
 
         /// <summary>
         /// Removing <see cref="Group">Group</see> 
         /// </summary>
         /// <param name="identifier"><see cref="Group.Identifier">Group Identifier</see></param>
-        [HttpDelete("{identifier}")]
+        [HttpDelete("{identifier:guid}")]
         public async Task<ActionResult> RemoveChargeStation(Guid identifier)
         {
-            await _unitOfWork.RemoveChargeStation(identifier);
-            return Ok();
+            try
+            {
+                await _unitOfWork.RemoveChargeStation(identifier);
+                return Ok();
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
     }
 }

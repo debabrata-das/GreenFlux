@@ -10,6 +10,5 @@ namespace GreenFlux.SmartCharging.Persistence.Repository
         Task<Group> GetByIdentifier(Guid identifier);
         Task RemoveGroup(Guid identifier);
         Task<float> GetMaxCurrentInAmps(Group group);
-        Task CheckGroupCapacity(Group existingGroup, float newCapacity);
     }
 }
