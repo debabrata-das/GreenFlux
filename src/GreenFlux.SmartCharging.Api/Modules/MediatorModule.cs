@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FluentValidation;
-using GreenFlux.SmartCharging.Api.Exceptions;
 using GreenFlux.SmartCharging.Api.Mediators;
 using GreenFlux.SmartCharging.Api.Validators;
+using GreenFlux.SmartCharging.Domain.Exceptions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace GreenFlux.SmartCharging.Api.Modules
 {
@@ -83,7 +81,7 @@ namespace GreenFlux.SmartCharging.Api.Modules
 
                 if (failures.Any())
                 {
-                    throw new GreenFluxDomainException($"Command Validation Errors for type {typeof(TRequest).Name}", 
+                    throw new GreenFluxBaseException($"Command Validation Errors for type {typeof(TRequest).Name}", 
                         new AggregateException(failures.Select(failure => new ValidationException(failure.ErrorMessage))));
                 }
 

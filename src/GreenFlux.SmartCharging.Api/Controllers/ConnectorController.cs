@@ -69,10 +69,17 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ConnectorDTO>> CreateConnector(SaveConnector command)
         {
-            command.FromPost = true;
-            var commandOutput = await _mediator.Send(command);
-            _logger.Info($"Connector '{commandOutput.ConnectorDto.Identifier}' for Charge Station '{commandOutput.ConnectorDto.ChargeStationIdentifier} has been created");
-            return Ok(commandOutput.ConnectorDto);
+            try
+            {
+                command.FromPost = true;
+                var commandOutput = await _mediator.Send(command);
+                _logger.Info($"Connector '{commandOutput.ConnectorDto.Identifier}' for Charge Station '{commandOutput.ConnectorDto.ChargeStationIdentifier} has been created");
+                return Ok(commandOutput.ConnectorDto);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
 
         /// <summary>
@@ -85,9 +92,17 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ConnectorDTO>> UpdateConnector(SaveConnector command)
         {
-            var commandOutput = await _mediator.Send(command);
-            _logger.Info($"Connector '{commandOutput.ConnectorDto.Identifier}' for Charge Station '{commandOutput.ConnectorDto.ChargeStationIdentifier} has been updated");
-            return Ok(commandOutput.ConnectorDto);
+            try
+            {
+                var commandOutput = await _mediator.Send(command);
+                _logger.Info(
+                    $"Connector '{commandOutput.ConnectorDto.Identifier}' for Charge Station '{commandOutput.ConnectorDto.ChargeStationIdentifier} has been updated");
+                return Ok(commandOutput.ConnectorDto);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
 
         /// <summary>
@@ -95,12 +110,19 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         /// </summary>
         /// <param name="identifier"><see cref="Connector.Identifier">Connector Identifier</see></param>
         /// <param name="chargeStationIdentifier">ChargeStation Identifier for this Connector</param>
-        [HttpDelete("{identifier}")]
+        [HttpDelete("{identifier:int}")]
         public async Task<ActionResult> RemoveConnector(int identifier, Guid chargeStationIdentifier)
         {
-            await _unitOfWork.ConnectorRepository.RemoveConnectorByIdentifierAndChargeStation(identifier, chargeStationIdentifier);
-            await _unitOfWork.SaveAsync();
-            return Ok();
+            try
+            {
+                await _unitOfWork.ConnectorRepository.RemoveConnectorByIdentifierAndChargeStation(identifier, chargeStationIdentifier);
+                await _unitOfWork.SaveAsync();
+                return Ok();
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc);
+            }
         }
     }
 }

@@ -13,5 +13,6 @@ namespace GreenFlux.SmartCharging.Persistence.Repository
         Task RemoveChargeStation(Guid identifier);
         Task RemoveGroup(Guid identifier);
         Task<(bool, float)> CheckIfCanAddToCurrentCapacityAndGetCurrentTotalMaxAmpsForGroup(Group group, float capacityToBeAdded);
+        Task CheckGroupCapacity(Group existingGroup, float newCapacity);
     }
 }

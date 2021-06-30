@@ -60,14 +60,5 @@ namespace GreenFlux.SmartCharging.Persistence.Repository
 
             return 0;
         }
-
-        public async Task CheckGroupCapacity(Group existingGroup, float newCapacity)
-        {
-            var currentAvailableCurrentInAmps = await GetMaxCurrentInAmps(existingGroup);
-            if (newCapacity < currentAvailableCurrentInAmps)
-            {
-                throw new NewCapacityForGroupCannotBeLowerException(existingGroup, newCapacity, currentAvailableCurrentInAmps);
-            }
-        }
     }
 }

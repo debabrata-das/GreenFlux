@@ -61,7 +61,7 @@ namespace GreenFlux.SmartCharging.Api.Mediators
                     throw new CannotAddDuplicateEntityException("Group", request.Identifier);
                 }
 
-                await _unitOfWork.GroupRepository.CheckGroupCapacity(existingGroup, request.Capacity);
+                await _unitOfWork.CheckGroupCapacity(existingGroup, request.Capacity);
 
                 existingGroup.Capacity = request.Capacity;
                 existingGroup.Identifier = request.Identifier;
